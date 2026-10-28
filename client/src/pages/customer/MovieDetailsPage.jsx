@@ -39,7 +39,7 @@ const MovieDetailsPage = () => {
     for (let i = 0; i < 4; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
-      const iso = d.toISOString().split('T')[0];
+     const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
       const dayName = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString(undefined, { weekday: 'short' });
       const dateStr = d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
       arr.push({ iso, dayName, dateStr });
@@ -71,6 +71,7 @@ const MovieDetailsPage = () => {
       setShowsLoading(true);
       try {
         const res = await API.get(`/shows/movie/${id}?date=${selectedDate}&city=${encodeURIComponent(selectedCity)}`);
+
         setTheatresWithShows(res.data.theatres || []);
       } catch (err) {
         console.error('Error fetching shows for movie', err);
@@ -98,7 +99,7 @@ const MovieDetailsPage = () => {
 
   return (
     <div className="min-h-screen bg-[#0B1020] pb-24">
-      
+
       {/* 1. Backdrop Hero Banner */}
       <div className="relative w-full h-[380px] md:h-[480px] overflow-hidden">
         <img
@@ -113,7 +114,7 @@ const MovieDetailsPage = () => {
       {/* 2. Main Movie Info Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-56 relative z-10">
         <div className="flex flex-col md:flex-row gap-8 items-start">
-          
+
           {/* Poster Card */}
           <div className="w-56 md:w-72 shrink-0 rounded-2xl overflow-hidden border-2 border-[#27324A] shadow-2xl bg-[#171D33] group">
             <img
@@ -125,7 +126,7 @@ const MovieDetailsPage = () => {
 
           {/* Details Column */}
           <div className="flex-1 space-y-4 pt-4 md:pt-16">
-            
+
             {/* Status & Rating */}
             <div className="flex flex-wrap items-center gap-3">
               <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#7C3AED]/30 text-[#A855F7] border border-[#7C3AED]/40">
@@ -220,7 +221,7 @@ const MovieDetailsPage = () => {
 
         {/* 3. SHOWTIMES & THEATRES BOOKING SECTION */}
         <section className="mt-16 pt-12 border-t border-[#27324A] space-y-8">
-          
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-black text-white tracking-tight">Select Show & Timings</h2>

@@ -70,13 +70,17 @@ const defaultLayout = [
 
 const seedData = async () => {
   try {
-    console.log(`Connecting to ${MONGODB_URI}...`);
-    await mongoose.connect(MONGODB_URI);
-    console.log('Connected! Dropping old database and indexes...');
 
-    await mongoose.connection.db.dropDatabase();
+console.log(`Connecting to ${MONGODB_URI}...`);
+await mongoose.connect(MONGODB_URI);
 
-    console.log('Old data cleared. Seeding Users...');
+console.log('Connected to MongoDB.');
+console.log('SAFE MODE: Existing database will NOT be deleted.');
+console.log('Seeding has been stopped to protect existing data.');
+
+await mongoose.disconnect();
+return;
+
 
     // 1 Super Admin
     const admin = await User.create({
